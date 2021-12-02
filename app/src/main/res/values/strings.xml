@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">Vision Tools</string>
+    <string name="GoButton">GO</string>
+    <string name="CurrentVersion">Version 30.11.2021</string>
+    <string name="flip_button">Flip view</string>
+    <string name="EffectsActivityTitle">Choose an Effect</string>
+    <string name="choose_effects">Choose Effects</string>
+    <string name="rgb_to_gbr">RGB to GBR</string>
+    <string name="choose_one_of_the_color_transformations">Choose one of the color transormations</string>
+    <string name="rgb_to_brg">RGB to BRG</string>
+    <string name="rgb_to_grb">RGB to GRB</string>
+    <string name="rgb_to_bgr">RGB to BGR</string>
+    <string name="rgb_to_rbg">RGB to RBG</string>
+    <string name="standard_rgb">Standard RGB</string>
+
+</resources>

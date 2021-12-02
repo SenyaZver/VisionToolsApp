@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.visiontoolsapp.SettingsActivity"
+    android:orientation="vertical">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="@string/choose_effects"
+        android:textColor="@color/purple_200"
+        android:textSize="40sp"
+        android:layout_marginTop="20sp"/>
+
+    <TextView
+        android:id="@+id/flip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="60dp"
+        android:text="@string/flip_button"
+        android:textSize="25sp" />
+    <CheckBox
+        android:id="@+id/checkBoxFlip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30sp" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30sp"
+        android:textColor="@color/purple_200"
+        android:text="@string/choose_one_of_the_color_transformations"
+        android:textSize="23sp"/>
+
+
+    <RadioGroup
+        android:id="@+id/radioGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#333333"
+        android:orientation="vertical">
+        <RadioButton
+            android:id="@+id/radioButton_GBR"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25sp"
+            android:text="@string/rgb_to_gbr"
+            android:textSize ="20sp"
+            android:layout_marginStart="10sp"/>
+        <RadioButton
+            android:id="@+id/radioButton_BRG"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20sp"
+            android:text="@string/rgb_to_brg"
+            android:textSize ="20sp"
+            android:layout_marginStart="10sp"/>
+        <RadioButton
+            android:id="@+id/radioButton_GRB"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20sp"
+            android:text="@string/rgb_to_grb"
+            android:textSize ="20sp"
+            android:layout_marginStart="10sp"/>
+        <RadioButton
+            android:id="@+id/radioButton_BGR"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20sp"
+            android:text="@string/rgb_to_bgr"
+            android:textSize ="20sp"
+            android:layout_marginStart="10sp"/>
+        <RadioButton
+            android:id="@+id/radioButton_RBG"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20sp"
+            android:text="@string/rgb_to_rbg"
+            android:textSize ="20sp"
+            android:layout_marginStart="10sp"/>
+        <RadioButton
+            android:id="@+id/radioButton_No_colourChange"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20sp"
+            android:text="@string/standard_rgb"
+            android:textSize ="20sp"
+            android:layout_marginStart="10sp"/>
+    </RadioGroup>
+
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dip"
+        android:layout_weight="1"
+        android:gravity="center|bottom"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/SettingsGoButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="40sp"
+            android:text="@string/GoButton"
+            android:textSize="40sp"
+            android:layout_gravity="center_horizontal|center"
+            />
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -6,13 +6,10 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
-import android.graphics.Matrix;
-import android.graphics.Point;
 import android.media.Image;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Size;
-import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -20,6 +17,7 @@ import android.widget.ImageView;
 import androidx.annotation.RequiresApi;
 import androidx.camera.core.CameraSelector;
 import androidx.camera.core.ImageAnalysis;
+import androidx.camera.core.ImageProxy;
 import androidx.camera.lifecycle.ProcessCameraProvider;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -54,11 +52,16 @@ public class CameraActivity extends FragmentActivity  {
 
         HideNavigationBar();
 
-        Display display = getWindowManager().getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-        int width = size.x;
-        int height = size.y;
+//        Display display = getWindowManager().getDefaultDisplay();
+//        Point size = new Point();
+//        display.getSize(size);
+//        int width = size.x;
+//        int height = size.y;
+
+
+        //eh, yeah
+        int width = 100000;
+        int height = 100000;
 
 
         cameraView1 = findViewById(R.id.CameraView);
@@ -70,7 +73,6 @@ public class CameraActivity extends FragmentActivity  {
             ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.CAMERA},
                     PERMISSION_REQUEST_CAMERA);
         } else {
-            
 
             initializeCamera(height, width, viewFlip_Choice, colourCorrection_Choice);
 
@@ -92,6 +94,7 @@ public class CameraActivity extends FragmentActivity  {
             try {
 
 
+
                 ImageAnalysis imageAnalysis = new ImageAnalysis.Builder()
                         .setTargetResolution(new Size(width, height))
                         .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
@@ -101,6 +104,12 @@ public class CameraActivity extends FragmentActivity  {
                         .requireLensFacing(CameraSelector.LENS_FACING_BACK)
                         .build();
 
+                //forces to use bitmap which is inefficient
+//                Preview preview = new Preview.Builder()
+//                        .build();
+
+
+
                 ProcessCameraProvider cameraProvider = cameraProviderFuture.get();
 
 
@@ -108,17 +117,14 @@ public class CameraActivity extends FragmentActivity  {
                         image -> {
                             @SuppressLint("UnsafeExperimentalUsageError") Image img = image.getImage();
 
-
                             Bitmap bitmap = translator.translateYUV(img, CameraActivity.this);
 
+                            applyEffects(viewFlip_Choice, colourCorrection_Choice, image);
 
 
-                            bitmap = applyEffects(viewFlip_Choice, colourCorrection_Choice, bitmap);
+                            //this is so useless and yet there is no other way to set the received image to ImageView
 
-
-                            cameraView1.setRotation(image.getImageInfo().getRotationDegrees());
                             cameraView1.setImageBitmap(bitmap);
-                            cameraView2.setRotation(image.getImageInfo().getRotationDegrees());
                             cameraView2.setImageBitmap(bitmap);
                             image.close();
                         });
@@ -135,36 +141,23 @@ public class CameraActivity extends FragmentActivity  {
     }
 
 
-    private Bitmap applyEffects(boolean ViewFlip_Choice, int ColourCorrection_Choice, Bitmap bitmap) {
-        //remove bitmap manipulations
+    private void applyEffects(boolean ViewFlip_Choice, int ColourCorrection_Choice, ImageProxy image) {
         if (ViewFlip_Choice) {
-            bitmap = RotateBitmap(bitmap, 180);
-
+            this.cameraView1.setRotation(180);
+            this.cameraView2.setRotation(180);
+        } else {
+            //probably useless
+            cameraView1.setRotation(image.getImageInfo().getRotationDegrees());
+            cameraView2.setRotation(image.getImageInfo().getRotationDegrees());
         }
         if (ColourCorrection_Choice != -1) {
             this.cameraView1.setColorFilter(new ColorMatrixColorFilter(new ColorMatrix(getColorMatrix(ColourCorrection_Choice))));
             this.cameraView2.setColorFilter(new ColorMatrixColorFilter(new ColorMatrix(getColorMatrix(ColourCorrection_Choice))));
         }
-
-        return bitmap;
     }
-
-
-
-
-
-    public static Bitmap RotateBitmap(Bitmap bitmap, float angle)
-    {
-        Matrix matrix = new Matrix();
-        matrix.postRotate(angle);
-        return Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
-    }
-
-
 
     private static ColorMatrix getColorMatrix(int ColourCorrection_Choice) {
         float[] matrix = new float[0];
-
 
             if (ColourCorrection_Choice == 0) {
                 matrix = new float[] {
@@ -188,7 +181,6 @@ public class CameraActivity extends FragmentActivity  {
                         0, 0, 1, 0, 0,
                         0, 0, 0, 1, 0 };
             }
-
             else if (ColourCorrection_Choice == 3) {
                 matrix = new float[] {
                         0, 0, 1, 0, 0,
@@ -304,4 +296,11 @@ public class CameraActivity extends FragmentActivity  {
 //        bitmap.setPixels(bitmapPixels,0,bitmap.getWidth(),0, 0,
 //                bitmap.getWidth(),bitmap.getHeight());
 //        return bitmap;
+//    }
+
+//    public static Bitmap RotateBitmap(Bitmap bitmap, float angle)
+//    {
+//        Matrix matrix = new Matrix();
+//        matrix.postRotate(angle);
+//        return Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
 //    }
